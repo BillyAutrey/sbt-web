@@ -570,6 +570,20 @@ object SbtWeb extends AutoPlugin {
   }
 
   /**
+   * Convert a file to a FileRef, for compatibility usage in user sbt files/tasks
+   * @param file
+   *   The file to convert
+   * @param conv
+   *   A valid FileConverter. Usually fileConverter.value, in Task scope
+   * @return
+   *   The file converted to the cross-buildable FileRef type.
+   */
+  def asFileRef(file: File, conv: FileConverter): FileRef = {
+    implicit val fc: FileConverter = conv
+    toFileRef(file)
+  }
+
+  /**
    * Deduplicator that selects the first file contained in the base directory.
    *
    * @param base
